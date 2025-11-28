@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  h1, h2 {
+    color: #333;
+    text-align: center;
+  }
+  .container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+  .form-section, .list-section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex: 1;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  select, input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+  .submit-btn {
+    background-color: #28a745;
+    width: 100%;
+  }
+  .submit-btn:hover {
+    background-color: #218838;
+  }
+  #cart-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+  }
+  
+  /* --- ESTILOS MODIFICADOS Y NUEVOS --- */
+  
+  #cart-list li {
+    background: #eee;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    /* (Nuevo) Alinea el texto y el botón */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* (Nuevo) Estilo para el botón de eliminar */
+  .remove-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%; /* Lo hace redondo */
+    width: 22px;
+    height: 22px;
+    line-height: 22px; /* Centra la 'X' */
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0; /* Quita el padding extra */
+    font-size: 14px;
+  }
+  .remove-btn:hover {
+    background-color: #c82333;
+  }
+  
+  /* --- FIN DE ESTILOS NUEVOS --- */
+  
+  
+  #orders-list .order {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  #orders-list .order h3 {
+    margin-top: 0;
+  }
