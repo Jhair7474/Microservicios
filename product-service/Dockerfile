@@ -18,7 +18,7 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 COPY . .
 
 # Puerto de la aplicación
-EXPOSE 3003
+EXPOSE 3002
 
 # Comando para iniciar la aplicación (sin nodemon)
 CMD ["node", "index.js"]

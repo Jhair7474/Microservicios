@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  # Base de Datos de Usuarios
+  db_users:
+    image: mysql:8.0
+    container_name: db_users
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234 
+      MYSQL_DATABASE: users_db
+    ports:
+      - "33061:3306" 
+    volumes:
+      # AÑADIR esta línea
+      - ./user-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - users-db-data:/var/lib/mysql
+    restart: always
+
+  # Base de Datos de Productos
+  db_products:
+    image: mysql:8.0
+    container_name: db_products
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: products_db
+    ports:
+      - "33062:3306"
+    volumes:
+      # AÑADIR esta línea
+      - ./product-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - products-db-data:/var/lib/mysql
+    restart: always
+
+  # Base de Datos de Órdenes
+  db_orders:
+    image: mysql:8.0
+    container_name: db_orders
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: orders_db
+    ports:
+      - "33063:3306"
+    volumes:
+      # AÑADIR esta línea
+      - ./order-service/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - orders-db-data:/var/lib/mysql
+    restart: always
+
+  # Microservicio de Usuarios (API: 3001)
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    ports:
+      - "3001:3001"
+    environment:
+      # Se asume que db.js lee la conexión desde el código, pero es buena práctica declararlo
+      DB_HOST: db_users
+    depends_on:
+      - db_users
+    restart: always
+
+  # Microservicio de Productos (API: 3002)
+  product-service:
+    build:
+      context: ./product-service
+    container_name: product-service
+    ports:
+      - "3002:3002"
+    environment:
+      DB_HOST: db_products
+    depends_on:
+      - db_products
+    restart: always
+
+  # Microservicio de Órdenes (API: 3003)
+  order-service:
+    build:
+      context: ./order-service
+    container_name: order-service
+    ports:
+      - "3003:3003"
+    environment:
+      # Variables usadas para la comunicación interna de axios (ya configuradas en index.js)
+      USER_SERVICE_URL: http://user-service:3001
+      PRODUCT_SERVICE_URL: http://product-service:3002
+      DB_HOST: db_orders
+    depends_on:
+      # Aseguramos que las APIs de las que depende estén disponibles
+      - db_orders
+      - user-service
+      - product-service
+    restart: always
+  
+  # Frontend (Servidor Web Nginx)
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "80:80" # El frontend será accesible en http://localhost
+    # Depende del servicio de órdenes
+    depends_on:
+      - order-service
+    restart: always
+
+# Volúmenes para persistencia de datos de MySQL
+volumes:
+  users-db-data:
+  products-db-data:
+  orders-db-data:

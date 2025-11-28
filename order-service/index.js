@@ -5,8 +5,8 @@ const cors = require('cors');
 const app = express();
 const PORT = 3003;
 
-const USER_SERVICE_URL = 'http://localhost:3001';
-const PRODUCT_SERVICE_URL = 'http://localhost:3002';
+const USER_SERVICE_URL = 'http://user-service:3001'; 
+const PRODUCT_SERVICE_URL = 'http://product-service:3002';
 
 app.use(cors());
 app.use(express.json());
